@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+
+# Internal planning/process docs — not part of the submitted project
+CLAUDE.md
+CHANGELOG.txt
+REQUIREMENTS_GAP_ANALYSIS.md
+README.md
