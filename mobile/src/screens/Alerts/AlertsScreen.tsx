@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { Swipeable } from "react-native-gesture-handler";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
-import { fetchAlerts } from "../../services/api/alertsApi";
+import { fetchAlerts, removeAlert } from "../../services/api/alertsApi";
 import { Alert } from "../../domain/models/Alert";
 import { useAuth } from "../../context/AuthContext";
 
@@ -32,6 +33,16 @@ export function AlertsScreen() {
     }, [load])
   );
 
+  async function handleDelete(alertId: string) {
+    setAlerts((current) => current.filter((alert) => alert.id !== alertId));
+    try {
+      await removeAlert(alertId);
+    } catch (err) {
+      // Roll back on failure and let the user retry.
+      load();
+    }
+  }
+
   return (
     <LoadingErrorEmptyWrapper
       loading={loading}
@@ -46,15 +57,26 @@ export function AlertsScreen() {
         onRefresh={load}
         refreshing={loading}
         renderItem={({ item }) => (
-          <View className="py-3 px-4 border-b border-[#ddd] bg-white">
-            <Text className="font-semibold text-base">{item.coin_id}</Text>
-            <Text className="text-[#444] mt-0.5">
-              {item.type === "above" ? "Above" : "Below"} ${item.target_price.toLocaleString()}
-            </Text>
-            <Text className={item.triggered ? "text-[#2e7d32] mt-1 font-semibold" : "text-[#888] mt-1"}>
-              {item.triggered ? "Triggered" : "Watching"}
-            </Text>
-          </View>
+          <Swipeable
+            renderRightActions={() => (
+              <Pressable
+                className="bg-[#c0392b] justify-center items-center w-[88px]"
+                onPress={() => handleDelete(item.id)}
+              >
+                <Text className="text-white font-semibold">Delete</Text>
+              </Pressable>
+            )}
+          >
+            <View className="py-3 px-4 border-b border-[#ddd] bg-white">
+              <Text className="font-semibold text-base">{item.coin_id}</Text>
+              <Text className="text-[#444] mt-0.5">
+                {item.type === "above" ? "Above" : "Below"} ${item.target_price.toLocaleString()}
+              </Text>
+              <Text className={item.triggered ? "text-[#2e7d32] mt-1 font-semibold" : "text-[#888] mt-1"}>
+                {item.triggered ? "Triggered" : "Watching"}
+              </Text>
+            </View>
+          </Swipeable>
         )}
       />
     </LoadingErrorEmptyWrapper>
