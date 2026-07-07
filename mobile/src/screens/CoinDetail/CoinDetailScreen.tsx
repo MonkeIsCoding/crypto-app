@@ -4,27 +4,29 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { PriceChart } from "../../components/PriceChart";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
 import { fetchCoin } from "../../services/api/coinsApi";
-import { addToWatchlist, fetchWatchlist, removeFromWatchlist } from "../../services/api/watchlistApi";
 import { createAlert } from "../../services/api/alertsApi";
 import { Coin } from "../../domain/models/Coin";
 import { AlertType } from "../../domain/models/Alert";
 import { HomeStackParamList } from "../../navigation/HomeStack";
 import { WatchlistStackParamList } from "../../navigation/WatchlistStack";
 import { useAuth } from "../../context/AuthContext";
+import { useWatchlist } from "../../context/WatchlistContext";
 
 type Props = NativeStackScreenProps<HomeStackParamList | WatchlistStackParamList, "CoinDetail">;
 
 export function CoinDetailScreen({ route }: Props) {
   const { coinId } = route.params;
   const { user } = useAuth();
+  const { isWatchlisted, addCoin, removeCoin } = useWatchlist();
   const [coin, setCoin] = useState<Coin | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [addingToWatchlist, setAddingToWatchlist] = useState(false);
-  const [watchlistEntryId, setWatchlistEntryId] = useState<string | null>(null);
   const [alertType, setAlertType] = useState<AlertType>("above");
   const [targetPrice, setTargetPrice] = useState("");
   const [creatingAlert, setCreatingAlert] = useState(false);
+
+  const watchlistEntryId = isWatchlisted(coinId);
 
   useEffect(() => {
     let cancelled = false;
@@ -45,33 +47,14 @@ export function CoinDetailScreen({ route }: Props) {
     };
   }, [coinId]);
 
-  useEffect(() => {
-    if (!user) return;
-    let cancelled = false;
-    fetchWatchlist(user.uid)
-      .then((items) => {
-        if (cancelled) return;
-        const existing = items.find((item) => item.coin_id === coinId);
-        setWatchlistEntryId(existing?.id ?? null);
-      })
-      .catch(() => {
-        // Non-critical: button just defaults to "Add to Watchlist".
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [user, coinId]);
-
   async function handleToggleWatchlist() {
     if (!user) return;
     setAddingToWatchlist(true);
     try {
       if (watchlistEntryId) {
-        await removeFromWatchlist(watchlistEntryId);
-        setWatchlistEntryId(null);
+        await removeCoin(coinId);
       } else {
-        const entry = await addToWatchlist(user.uid, coinId);
-        setWatchlistEntryId(entry.id);
+        await addCoin(coinId);
       }
     } catch (err) {
       RNAlert.alert("Error", `Couldn't ${watchlistEntryId ? "remove from" : "add to"} watchlist.`);
