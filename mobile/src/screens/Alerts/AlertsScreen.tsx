@@ -72,7 +72,7 @@ export function AlertsScreen() {
               </Pressable>
             )}
           >
-            <View className="py-4 border-b border-hairline bg-white flex-row items-center justify-between">
+            <View className="py-4 border-x-0 border-t-0 border-b border-hairline bg-white flex-row items-center justify-between">
               <View>
                 <Text className="font-sans-bold text-[15px] text-ink">{coinLabel(item.coin_id)}</Text>
                 <Text className="font-sans text-[13px] text-muted mt-0.5">

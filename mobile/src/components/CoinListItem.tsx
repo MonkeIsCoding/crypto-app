@@ -12,7 +12,7 @@ export function CoinListItem({ coin, onPress }: Props) {
 
   return (
     <Pressable
-      className="flex-row justify-between items-center py-4 border-b border-hairline"
+      className="flex-row justify-between items-center py-4 bg-white border-x-0 border-t-0 border-b border-hairline"
       onPress={() => onPress(coin.coin_id)}
     >
       <View className="shrink">

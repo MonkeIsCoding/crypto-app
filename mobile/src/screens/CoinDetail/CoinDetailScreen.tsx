@@ -107,13 +107,13 @@ export function CoinDetailScreen({ route }: Props) {
           {/* Historical series isn't cached server-side yet; showing the single latest point. */}
           <PriceChart labels={["now"]} prices={[coin.price]} isPositive={coin.price_change_24h >= 0} />
 
-          <View className="flex-row justify-between py-3.5 border-b border-hairline">
+          <View className="flex-row justify-between py-3.5 bg-white border-x-0 border-t-0 border-b border-hairline">
             <Text className="font-sans text-[14px] text-muted">Market cap</Text>
             <Text className="font-sans-semibold text-[14px] text-ink tabular-nums">
               ${coin.market_cap.toLocaleString()}
             </Text>
           </View>
-          <View className="flex-row justify-between py-3.5 border-b border-hairline">
+          <View className="flex-row justify-between py-3.5 bg-white border-x-0 border-t-0 border-b border-hairline">
             <Text className="font-sans text-[14px] text-muted">Last updated</Text>
             <Text className="font-sans-semibold text-[14px] text-ink">
               {new Date(coin.last_updated).toLocaleString()}
