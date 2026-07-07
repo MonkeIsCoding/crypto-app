@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "mobile",
+    "slug": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite"
+    ],
+    "extra": {
+      "apiBaseUrl": "http://localhost:3000",
+      "firebase": {
+        "apiKey": "AIzaSyDxSLphFaRFp4wXeZQZy-jsYNIYLJRSrRU",
+        "authDomain": "crypto-app-19269.firebaseapp.com",
+        "projectId": "crypto-app-19269",
+        "storageBucket": "crypto-app-19269.firebasestorage.app",
+        "messagingSenderId": "402736790642",
+        "appId": "1:402736790642:web:6bc9b98980b09fa19696eb"
+      }
+    }
+  }
+}
