@@ -18,24 +18,24 @@ export function LoadingErrorEmptyWrapper({
 }: Props) {
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center p-6">
-        <ActivityIndicator size="large" />
+      <View className="flex-1 items-center justify-center p-6 bg-white">
+        <ActivityIndicator size="large" color="#1E7A46" />
       </View>
     );
   }
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center p-6">
-        <Text className="text-[#c0392b] text-center">{error}</Text>
+      <View className="flex-1 items-center justify-center p-6 bg-white">
+        <Text className="text-brand-red text-center font-sans-medium">{error}</Text>
       </View>
     );
   }
 
   if (isEmpty) {
     return (
-      <View className="flex-1 items-center justify-center p-6">
-        <Text className="text-[#7f8c8d] text-center">{emptyMessage}</Text>
+      <View className="flex-1 items-center justify-center p-6 bg-white">
+        <Text className="text-muted text-center font-sans">{emptyMessage}</Text>
       </View>
     );
   }

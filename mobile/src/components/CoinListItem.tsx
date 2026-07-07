@@ -12,16 +12,20 @@ export function CoinListItem({ coin, onPress }: Props) {
 
   return (
     <Pressable
-      className="flex-row justify-between items-center py-3 px-4 border-b border-[#ddd]"
+      className="flex-row justify-between items-center py-4 border-b border-hairline"
       onPress={() => onPress(coin.coin_id)}
     >
       <View className="shrink">
-        <Text className="font-semibold text-base">{coin.symbol.toUpperCase()}</Text>
-        <Text className="text-[#666] text-[13px]">{coin.name}</Text>
+        <Text className="font-sans-bold text-[15px] text-ink">{coin.symbol.toUpperCase()}</Text>
+        <Text className="font-sans text-[13px] text-muted mt-0.5">{coin.name}</Text>
       </View>
       <View className="items-end">
-        <Text className="font-semibold text-base">${coin.price.toLocaleString()}</Text>
-        <Text className={`text-[13px] ${isPositive ? "text-[#2e7d32]" : "text-[#c0392b]"}`}>
+        <Text className="font-sans-semibold text-[15px] text-ink tabular-nums">
+          ${coin.price.toLocaleString()}
+        </Text>
+        <Text
+          className={`font-sans-medium text-[13px] mt-0.5 tabular-nums ${isPositive ? "text-brand-green" : "text-brand-red"}`}
+        >
           {isPositive ? "+" : ""}
           {coin.price_change_24h.toFixed(2)}%
         </Text>

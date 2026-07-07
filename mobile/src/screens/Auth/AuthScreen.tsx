@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Alert as RNAlert, KeyboardAvoidingView, Platform, Pressable, Text, TextInput } from "react-native";
 import { login, register, resetPassword } from "../../services/firebase/authService";
+import { colors } from "../../theme/colors";
 
 type Mode = "login" | "register";
 
@@ -44,48 +45,52 @@ export function AuthScreen() {
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 justify-center p-6"
+      className="flex-1 justify-center p-6 bg-white"
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <Text className="text-[28px] font-bold mb-6 text-center">
+      <Text className="font-sans-extrabold text-[26px] text-ink mb-8 text-center">
         {mode === "login" ? "Log in" : "Create account"}
       </Text>
 
       <TextInput
-        className="border border-[#999] rounded-lg p-3 mb-3"
+        className="border border-hairline rounded-2xl p-4 mb-3 font-sans text-[15px] text-ink"
         placeholder="Email"
+        placeholderTextColor={colors.muted}
         autoCapitalize="none"
         keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        className="border border-[#999] rounded-lg p-3 mb-3"
+        className="border border-hairline rounded-2xl p-4 mb-4 font-sans text-[15px] text-ink"
         placeholder="Password"
+        placeholderTextColor={colors.muted}
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
 
       <Pressable
-        className="bg-[#2e5bff] rounded-lg p-3.5 items-center mt-2"
+        className="bg-brand-green rounded-2xl p-4 items-center"
         onPress={handleSubmit}
         disabled={submitting}
       >
-        <Text className="text-white font-semibold">
-          {submitting ? "Please wait..." : mode === "login" ? "Log in" : "Register"}
+        <Text className="text-white font-sans-semibold text-[15px]">
+          {submitting ? "Please wait..." : mode === "login" ? "Log in" : "Create account"}
         </Text>
       </Pressable>
 
       <Pressable onPress={() => setMode(mode === "login" ? "register" : "login")}>
-        <Text className="text-[#2e5bff] text-center mt-4">
+        <Text className="text-brand-green font-sans-medium text-[14px] text-center mt-5">
           {mode === "login" ? "Need an account? Register" : "Have an account? Log in"}
         </Text>
       </Pressable>
 
       {mode === "login" && (
         <Pressable onPress={handleForgotPassword}>
-          <Text className="text-[#2e5bff] text-center mt-4">Forgot password?</Text>
+          <Text className="text-brand-green font-sans-medium text-[14px] text-center mt-3">
+            Forgot password?
+          </Text>
         </Pressable>
       )}
     </KeyboardAvoidingView>

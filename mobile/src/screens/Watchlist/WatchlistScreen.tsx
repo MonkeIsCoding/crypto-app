@@ -21,7 +21,7 @@ export function WatchlistScreen({ navigation }: Props) {
   return (
     <>
       {offline && (
-        <Text className="bg-[#fff3cd] text-[#856404] text-center p-1.5 text-xs">
+        <Text className="bg-[#fff3cd] text-[#856404] text-center p-1.5 text-xs font-sans-medium">
           Offline — showing last synced watchlist
         </Text>
       )}
@@ -32,8 +32,9 @@ export function WatchlistScreen({ navigation }: Props) {
         emptyMessage="Your watchlist is empty. Add coins from Home."
       >
         <FlatList
-          className="flex-1 bg-white"
+          className="flex-1 px-4 bg-white"
           data={items}
+          showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.id}
           onRefresh={refresh}
           refreshing={refreshing}
