@@ -1,6 +1,6 @@
 import axios from "axios";
 import { env } from "../config/env";
-import { CoinCache } from "../types";
+import { CoinCache, PriceHistoryPoint } from "../types";
 
 interface CoinGeckoMarketEntry {
   id: string;
@@ -11,7 +11,11 @@ interface CoinGeckoMarketEntry {
   market_cap: number;
 }
 
-export async function fetchCoinMarkets(coinIds: string[]): Promise<CoinCache[]> {
+interface CoinGeckoMarketChartResponse {
+  prices: [number, number][];
+}
+
+export async function fetchCoinMarkets(coinIds: string[]): Promise<Omit<CoinCache, "price_history">[]> {
   const { data } = await axios.get<CoinGeckoMarketEntry[]>(`${env.coingecko.apiBase}/coins/markets`, {
     params: {
       vs_currency: "usd",
@@ -28,5 +32,17 @@ export async function fetchCoinMarkets(coinIds: string[]): Promise<CoinCache[]> 
     price_change_24h: entry.price_change_percentage_24h ?? 0,
     market_cap: entry.market_cap,
     last_updated: now,
+  }));
+}
+
+export async function fetchCoinMarketChart(coinId: string, days = 7): Promise<PriceHistoryPoint[]> {
+  const { data } = await axios.get<CoinGeckoMarketChartResponse>(
+    `${env.coingecko.apiBase}/coins/${coinId}/market_chart`,
+    { params: { vs_currency: "usd", days } }
+  );
+
+  return data.prices.map(([timestamp, price]) => ({
+    timestamp: new Date(timestamp).toISOString(),
+    price,
   }));
 }

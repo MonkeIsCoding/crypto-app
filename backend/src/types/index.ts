@@ -1,3 +1,8 @@
+export interface PriceHistoryPoint {
+  timestamp: string;
+  price: number;
+}
+
 export interface CoinCache {
   coin_id: string;
   name: string;
@@ -6,6 +11,7 @@ export interface CoinCache {
   price_change_24h: number;
   market_cap: number;
   last_updated: string;
+  price_history: PriceHistoryPoint[];
 }
 
 export interface WatchlistEntry {
