@@ -12,6 +12,7 @@ import {
 } from "@expo-google-fonts/manrope";
 import { AuthProvider } from "./src/context/AuthContext";
 import { WatchlistProvider } from "./src/context/WatchlistContext";
+import { AlertsProvider } from "./src/context/AlertsContext";
 import { RootNavigator } from "./src/navigation/RootNavigator";
 
 export default function App() {
@@ -35,8 +36,10 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
         <WatchlistProvider>
-          <RootNavigator />
-          <StatusBar style="dark" />
+          <AlertsProvider>
+            <RootNavigator />
+            <StatusBar style="dark" />
+          </AlertsProvider>
         </WatchlistProvider>
       </AuthProvider>
     </GestureHandlerRootView>

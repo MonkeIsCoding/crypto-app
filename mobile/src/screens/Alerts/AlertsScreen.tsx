@@ -1,49 +1,29 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { FlatList, Pressable, Text, View } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
-import { fetchAlerts, removeAlert } from "../../services/api/alertsApi";
-import { Alert } from "../../domain/models/Alert";
-import { useAuth } from "../../context/AuthContext";
+import { useAlerts } from "../../context/AlertsContext";
 
 function coinLabel(coinId: string) {
   return coinId.charAt(0).toUpperCase() + coinId.slice(1);
 }
 
 export function AlertsScreen() {
-  const { user } = useAuth();
-  const [alerts, setAlerts] = useState<Alert[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const load = useCallback(async () => {
-    if (!user) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchAlerts(user.uid);
-      setAlerts(data);
-    } catch (err) {
-      setError("Couldn't load alerts.");
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
+  const { alerts, loading, error, refresh, removeAlert } = useAlerts();
 
   useFocusEffect(
     useCallback(() => {
-      load();
-    }, [load])
+      refresh({ silent: true });
+    }, [refresh])
   );
 
   async function handleDelete(alertId: string) {
-    setAlerts((current) => current.filter((alert) => alert.id !== alertId));
     try {
       await removeAlert(alertId);
     } catch (err) {
       // Roll back on failure and let the user retry.
-      load();
+      refresh({ silent: true });
     }
   }
 
@@ -58,7 +38,7 @@ export function AlertsScreen() {
         className="flex-1 bg-white px-4"
         data={alerts}
         keyExtractor={(alert) => alert.id}
-        onRefresh={load}
+        onRefresh={() => refresh()}
         refreshing={loading}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (

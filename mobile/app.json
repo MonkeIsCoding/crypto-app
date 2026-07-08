@@ -23,7 +23,8 @@
     },
     "plugins": [
       "expo-sqlite",
-      "expo-font"
+      "expo-font",
+      "expo-notifications"
     ],
     "extra": {
       "apiBaseUrl": "http://localhost:3000",
