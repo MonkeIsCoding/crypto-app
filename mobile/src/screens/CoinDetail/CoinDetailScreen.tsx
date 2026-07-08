@@ -104,8 +104,17 @@ export function CoinDetailScreen({ route }: Props) {
             {coin.price_change_24h.toFixed(2)}% Today
           </Text>
 
-          {/* Historical series isn't cached server-side yet; showing the single latest point. */}
-          <PriceChart labels={["now"]} prices={[coin.price]} isPositive={coin.price_change_24h >= 0} />
+          <PriceChart
+            labels={
+              coin.price_history.length > 0
+                ? coin.price_history.map((point) =>
+                    new Date(point.timestamp).toLocaleDateString(undefined, { weekday: "short" })
+                  )
+                : ["now"]
+            }
+            prices={coin.price_history.length > 0 ? coin.price_history.map((point) => point.price) : [coin.price]}
+            isPositive={coin.price_change_24h >= 0}
+          />
 
           <View className="flex-row justify-between py-3.5 bg-white border-x-0 border-t-0 border-b border-hairline">
             <Text className="font-sans text-[14px] text-muted">Market cap</Text>
