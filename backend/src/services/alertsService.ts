@@ -16,8 +16,11 @@ export async function createAlert(userId: string, coinId: string, type: AlertTyp
   return alert;
 }
 
-export async function removeAlert(alertId: string): Promise<void> {
-  return alertsRepository.removeAlert(alertId);
+export async function removeAlertIfOwner(alertId: string, userId: string): Promise<boolean> {
+  const alert = await alertsRepository.getAlertById(alertId);
+  if (!alert || alert.user_id !== userId) return false;
+  await alertsRepository.removeAlert(alertId);
+  return true;
 }
 
 export async function getUserAlerts(userId: string): Promise<Alert[]> {

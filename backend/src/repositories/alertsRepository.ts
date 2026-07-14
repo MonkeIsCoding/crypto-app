@@ -21,6 +21,12 @@ export async function createAlert(
   return { id: ref.id, ...entry };
 }
 
+export async function getAlertById(alertId: string): Promise<Alert | null> {
+  const doc = await db.collection(COLLECTION).doc(alertId).get();
+  if (!doc.exists) return null;
+  return { id: doc.id, ...(doc.data() as Omit<Alert, "id">) };
+}
+
 export async function removeAlert(alertId: string): Promise<void> {
   await db.collection(COLLECTION).doc(alertId).delete();
 }

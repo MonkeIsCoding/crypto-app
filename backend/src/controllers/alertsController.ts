@@ -7,29 +7,32 @@ function isValidAlertType(type: unknown): type is AlertType {
 }
 
 export async function createAlert(req: Request, res: Response): Promise<void> {
-  const { userId, coinId, type, targetPrice } = req.body as {
-    userId?: string;
+  const { coinId, type, targetPrice } = req.body as {
     coinId?: string;
     type?: unknown;
     targetPrice?: unknown;
   };
 
-  if (!userId || !coinId || !isValidAlertType(type) || typeof targetPrice !== "number") {
-    res.status(400).json({ error: "userId, coinId, type ('above'|'below') and numeric targetPrice are required" });
+  if (!coinId || !isValidAlertType(type) || typeof targetPrice !== "number") {
+    res.status(400).json({ error: "coinId, type ('above'|'below') and numeric targetPrice are required" });
     return;
   }
 
-  const alert = await alertsService.createAlert(userId, coinId, type, targetPrice);
+  const alert = await alertsService.createAlert(req.uid!, coinId, type, targetPrice);
   res.status(201).json(alert);
 }
 
 export async function removeAlert(req: Request, res: Response): Promise<void> {
-  await alertsService.removeAlert(String(req.params.id));
+  const removed = await alertsService.removeAlertIfOwner(String(req.params.id), req.uid!);
+  if (!removed) {
+    res.status(404).json({ error: "Alert not found" });
+    return;
+  }
   res.status(204).send();
 }
 
 export async function getUserAlerts(req: Request, res: Response): Promise<void> {
-  const alerts = await alertsService.getUserAlerts(String(req.params.userId));
+  const alerts = await alertsService.getUserAlerts(req.uid!);
   res.json(alerts);
 }
 

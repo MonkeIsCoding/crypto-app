@@ -21,6 +21,12 @@ export async function addToWatchlist(userId: string, coinId: string): Promise<Wa
   return { id, ...entry };
 }
 
+export async function getWatchlistEntryById(entryId: string): Promise<WatchlistEntry | null> {
+  const doc = await db.collection(COLLECTION).doc(entryId).get();
+  if (!doc.exists) return null;
+  return { id: doc.id, ...(doc.data() as Omit<WatchlistEntry, "id">) };
+}
+
 export async function removeFromWatchlist(entryId: string): Promise<void> {
   await db.collection(COLLECTION).doc(entryId).delete();
 }
