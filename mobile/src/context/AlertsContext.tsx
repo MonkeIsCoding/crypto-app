@@ -34,7 +34,7 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
       if (!silent) setLoading(true);
       setError(null);
       try {
-        const data = await fetchAlerts(user.uid);
+        const data = await fetchAlerts();
         const currentlyTriggered = data.filter((a) => a.triggered).map((a) => a.id);
         // First fetch of a session just seeds the seen-set — nothing has "newly"
         // triggered yet, so it shouldn't notify about alerts already flipped

@@ -38,7 +38,7 @@ export function WatchlistProvider({ children }: { children: React.ReactNode }) {
       setError(null);
       setOffline(false);
       try {
-        const data = await fetchWatchlist(user.uid);
+        const data = await fetchWatchlist();
         setItems(data);
         await replaceCachedWatchlist(
           user.uid,
@@ -81,7 +81,7 @@ export function WatchlistProvider({ children }: { children: React.ReactNode }) {
   const addCoin = useCallback(
     async (coinId: string) => {
       if (!user) return;
-      await apiAddToWatchlist(user.uid, coinId);
+      await apiAddToWatchlist(coinId);
       await refresh({ silent: true });
     },
     [user, refresh]

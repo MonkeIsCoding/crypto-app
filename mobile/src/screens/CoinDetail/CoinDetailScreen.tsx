@@ -73,7 +73,7 @@ export function CoinDetailScreen({ route }: Props) {
     }
     setCreatingAlert(true);
     try {
-      await createAlert(user.uid, coinId, alertType, parsedPrice);
+      await createAlert(coinId, alertType, parsedPrice);
       setTargetPrice("");
       RNAlert.alert("Alert created", `You'll be notified when ${coinId} goes ${alertType} $${parsedPrice}.`);
     } catch (err) {

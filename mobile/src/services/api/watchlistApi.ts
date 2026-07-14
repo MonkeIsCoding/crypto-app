@@ -1,13 +1,13 @@
 import { apiClient } from "./client";
 import { WatchlistItem } from "../../domain/models/Watchlist";
 
-export async function fetchWatchlist(userId: string): Promise<WatchlistItem[]> {
-  const { data } = await apiClient.get<WatchlistItem[]>(`/watchlist/${userId}`);
+export async function fetchWatchlist(): Promise<WatchlistItem[]> {
+  const { data } = await apiClient.get<WatchlistItem[]>("/watchlist");
   return data;
 }
 
-export async function addToWatchlist(userId: string, coinId: string): Promise<WatchlistItem> {
-  const { data } = await apiClient.post<WatchlistItem>("/watchlist", { userId, coinId });
+export async function addToWatchlist(coinId: string): Promise<WatchlistItem> {
+  const { data } = await apiClient.post<WatchlistItem>("/watchlist", { coinId });
   return data;
 }
 
