@@ -1,18 +1,9 @@
 import React from "react";
-import { Alert as RNAlert, Pressable, Text, View } from "react-native";
-import { logout } from "../../services/firebase/authService";
-import { useAuth } from "../../context/AuthContext";
+import { Pressable, Text, View } from "react-native";
+import { useSettingsViewModel } from "../../viewmodels/useSettingsViewModel";
 
 export function SettingsScreen() {
-  const { user } = useAuth();
-
-  async function handleLogout() {
-    try {
-      await logout();
-    } catch (err) {
-      RNAlert.alert("Error", err instanceof Error ? err.message : "Couldn't log out");
-    }
-  }
+  const { user, handleLogout } = useSettingsViewModel();
 
   return (
     <View className="flex-1 p-4 bg-white">
