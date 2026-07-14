@@ -5,7 +5,7 @@ import {
   presentAlertTriggeredNotification,
   requestNotificationPermissions,
 } from "../services/notifications/notificationService";
-import { Alert } from "../domain/models/Alert";
+import { Alert } from "../models/Alert";
 import { useAuth } from "./AuthContext";
 
 const POLL_INTERVAL_MS = 60_000;

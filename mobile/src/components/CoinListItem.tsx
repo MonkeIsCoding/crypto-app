@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { Coin } from "../domain/models/Coin";
+import { Coin } from "../models/Coin";
 
 interface Props {
   coin: Coin;

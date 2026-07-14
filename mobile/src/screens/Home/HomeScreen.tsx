@@ -5,7 +5,7 @@ import { CoinListItem } from "../../components/CoinListItem";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
 import { fetchCoins } from "../../services/api/coinsApi";
 import { getCachedCoins, replaceCachedCoins } from "../../services/sqlite/coinsCache";
-import { Coin } from "../../domain/models/Coin";
+import { Coin } from "../../models/Coin";
 import { HomeStackParamList } from "../../navigation/HomeStack";
 
 type Props = NativeStackScreenProps<HomeStackParamList, "HomeList">;

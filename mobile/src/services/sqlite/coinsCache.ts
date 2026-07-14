@@ -1,5 +1,5 @@
 import { getDb } from "./db";
-import { Coin } from "../../domain/models/Coin";
+import { Coin } from "../../models/Coin";
 
 export async function getCachedCoins(): Promise<Coin[]> {
   const db = await getDb();

@@ -1,5 +1,5 @@
 import * as Notifications from "expo-notifications";
-import { Alert } from "../../domain/models/Alert";
+import { Alert } from "../../models/Alert";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

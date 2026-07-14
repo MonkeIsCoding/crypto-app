@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import { Coin } from "../../domain/models/Coin";
+import { Coin } from "../../models/Coin";
 
 export async function fetchCoins(): Promise<Coin[]> {
   const { data } = await apiClient.get<Coin[]>("/coins");

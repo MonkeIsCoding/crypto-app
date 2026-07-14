@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import { WatchlistItem } from "../../domain/models/Watchlist";
+import { WatchlistItem } from "../../models/Watchlist";
 
 export async function fetchWatchlist(): Promise<WatchlistItem[]> {
   const { data } = await apiClient.get<WatchlistItem[]>("/watchlist");

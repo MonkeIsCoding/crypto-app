@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import { Alert, AlertType } from "../../domain/models/Alert";
+import { Alert, AlertType } from "../../models/Alert";
 
 export async function fetchAlerts(): Promise<Alert[]> {
   const { data } = await apiClient.get<Alert[]>("/alerts");

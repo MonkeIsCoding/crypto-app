@@ -5,7 +5,7 @@ import {
   removeFromWatchlist as apiRemoveFromWatchlist,
 } from "../services/api/watchlistApi";
 import { getCachedWatchlist, replaceCachedWatchlist } from "../services/sqlite/watchlistCache";
-import { WatchlistItem } from "../domain/models/Watchlist";
+import { WatchlistItem } from "../models/Watchlist";
 import { useAuth } from "./AuthContext";
 
 interface WatchlistContextValue {
