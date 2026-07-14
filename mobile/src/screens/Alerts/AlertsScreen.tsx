@@ -10,7 +10,7 @@ function coinLabel(coinId: string) {
 }
 
 export function AlertsScreen() {
-  const { alerts, loading, error, refresh, removeAlert } = useAlerts();
+  const { alerts, loading, refreshing, error, refresh, removeAlert } = useAlerts();
 
   useFocusEffect(
     useCallback(() => {
@@ -29,7 +29,7 @@ export function AlertsScreen() {
 
   return (
     <LoadingErrorEmptyWrapper
-      loading={loading}
+      loading={loading && alerts.length === 0}
       error={error}
       isEmpty={alerts.length === 0}
       emptyMessage="No alerts yet. Create one from a coin's detail page."
@@ -39,7 +39,7 @@ export function AlertsScreen() {
         data={alerts}
         keyExtractor={(alert) => alert.id}
         onRefresh={() => refresh()}
-        refreshing={loading}
+        refreshing={refreshing}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <Swipeable

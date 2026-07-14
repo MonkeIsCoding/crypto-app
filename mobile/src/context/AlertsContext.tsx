@@ -13,6 +13,7 @@ const POLL_INTERVAL_MS = 60_000;
 interface AlertsContextValue {
   alerts: Alert[];
   loading: boolean;
+  refreshing: boolean;
   error: string | null;
   refresh: (opts?: { silent?: boolean }) => Promise<void>;
   removeAlert: (alertId: string) => Promise<void>;
@@ -24,6 +25,7 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const triggeredIdsRef = useRef<Set<string> | null>(null);
 
@@ -31,7 +33,7 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
     async (opts?: { silent?: boolean }) => {
       if (!user) return;
       const silent = opts?.silent ?? false;
-      if (!silent) setLoading(true);
+      if (!silent) setRefreshing(true);
       setError(null);
       try {
         const data = await fetchAlerts();
@@ -51,7 +53,8 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
       } catch (err) {
         setError("Couldn't load alerts.");
       } finally {
-        if (!silent) setLoading(false);
+        if (!silent) setRefreshing(false);
+        setLoading(false);
       }
     },
     [user]
@@ -89,8 +92,8 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ alerts, loading, error, refresh, removeAlert }),
-    [alerts, loading, error, refresh, removeAlert]
+    () => ({ alerts, loading, refreshing, error, refresh, removeAlert }),
+    [alerts, loading, refreshing, error, refresh, removeAlert]
   );
 
   return <AlertsContext.Provider value={value}>{children}</AlertsContext.Provider>;

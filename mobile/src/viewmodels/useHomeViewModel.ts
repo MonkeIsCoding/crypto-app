@@ -6,11 +6,13 @@ import { Coin } from "../models/Coin";
 export function useHomeViewModel() {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [offline, setOffline] = useState(false);
 
-  const loadCoins = useCallback(async () => {
-    setLoading(true);
+  const loadCoins = useCallback(async (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setRefreshing(true);
     setError(null);
     setOffline(false);
     try {
@@ -27,9 +29,10 @@ export function useHomeViewModel() {
         setError("Couldn't load coins. Pull to retry.");
       }
     } finally {
+      if (!silent) setRefreshing(false);
       setLoading(false);
     }
   }, []);
 
-  return { coins, loading, error, offline, loadCoins };
+  return { coins, loading, refreshing, error, offline, loadCoins };
 }

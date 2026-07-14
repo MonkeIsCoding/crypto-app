@@ -9,7 +9,7 @@ import { HomeStackParamList } from "../../navigation/HomeStack";
 type Props = NativeStackScreenProps<HomeStackParamList, "HomeList">;
 
 export function HomeScreen({ navigation }: Props) {
-  const { coins, loading, error, offline, loadCoins } = useHomeViewModel();
+  const { coins, loading, refreshing, error, offline, loadCoins } = useHomeViewModel();
 
   useEffect(() => {
     loadCoins();
@@ -22,14 +22,14 @@ export function HomeScreen({ navigation }: Props) {
           Offline — showing last synced prices
         </Text>
       )}
-      <LoadingErrorEmptyWrapper loading={loading} error={error} isEmpty={coins.length === 0}>
+      <LoadingErrorEmptyWrapper loading={loading && coins.length === 0} error={error} isEmpty={coins.length === 0}>
         <FlatList
           className="flex-1 px-4 bg-white"
           data={coins}
           showsVerticalScrollIndicator={false}
           keyExtractor={(coin) => coin.coin_id}
           onRefresh={loadCoins}
-          refreshing={loading}
+          refreshing={refreshing}
           renderItem={({ item }) => (
             <CoinListItem coin={item} onPress={(coinId) => navigation.navigate("CoinDetail", { coinId })} />
           )}
