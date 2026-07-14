@@ -1,5 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { StackActions } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { HomeStack } from "./HomeStack";
 import { WatchlistStack } from "./WatchlistStack";
@@ -51,8 +52,28 @@ export function MainTabs() {
         headerShadowVisible: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Watchlist" component={WatchlistStack} />
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        listeners={({ navigation }) => ({
+          tabPress: () => {
+            if (navigation.isFocused()) {
+              navigation.dispatch(StackActions.popToTop());
+            }
+          },
+        })}
+      />
+      <Tab.Screen
+        name="Watchlist"
+        component={WatchlistStack}
+        listeners={({ navigation }) => ({
+          tabPress: () => {
+            if (navigation.isFocused()) {
+              navigation.dispatch(StackActions.popToTop());
+            }
+          },
+        })}
+      />
       <Tab.Screen name="Alerts" component={AlertsScreen} options={{ headerShown: true }} />
       <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: true }} />
     </Tab.Navigator>
