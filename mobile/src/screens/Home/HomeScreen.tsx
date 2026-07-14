@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 import { FlatList, Text } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useFocusEffect } from "@react-navigation/native";
 import { CoinListItem } from "../../components/CoinListItem";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
 import { useHomeViewModel } from "../../viewmodels/useHomeViewModel";
@@ -11,9 +12,11 @@ type Props = NativeStackScreenProps<HomeStackParamList, "HomeList">;
 export function HomeScreen({ navigation }: Props) {
   const { coins, loading, refreshing, error, offline, loadCoins } = useHomeViewModel();
 
-  useEffect(() => {
-    loadCoins();
-  }, [loadCoins]);
+  useFocusEffect(
+    useCallback(() => {
+      loadCoins({ silent: true });
+    }, [loadCoins])
+  );
 
   return (
     <>
