@@ -7,7 +7,7 @@ interface Props {
   onPress: (coinId: string) => void;
 }
 
-export function CoinListItem({ coin, onPress }: Props) {
+export const CoinListItem = React.memo(function CoinListItem({ coin, onPress }: Props) {
   const isPositive = coin.price_change_24h >= 0;
 
   return (
@@ -32,4 +32,4 @@ export function CoinListItem({ coin, onPress }: Props) {
       </View>
     </Pressable>
   );
-}
+});
