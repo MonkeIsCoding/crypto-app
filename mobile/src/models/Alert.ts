@@ -1,3 +1,5 @@
+import { Coin } from "./Coin";
+
 export type AlertType = "above" | "below";
 
 export interface Alert {
@@ -8,4 +10,8 @@ export interface Alert {
   target_price: number;
   triggered: boolean;
   created_at: string;
+}
+
+export interface AlertWithCoin extends Alert {
+  coin: Coin | null;
 }

@@ -36,3 +36,7 @@ export interface Alert {
   triggered: boolean;
   created_at: string;
 }
+
+export interface AlertWithCoin extends Alert {
+  coin: CoinCache | null;
+}

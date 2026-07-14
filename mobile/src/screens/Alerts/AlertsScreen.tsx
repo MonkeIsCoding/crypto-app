@@ -5,10 +5,6 @@ import { Swipeable } from "react-native-gesture-handler";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
 import { useAlerts } from "../../context/AlertsContext";
 
-function coinLabel(coinId: string) {
-  return coinId.charAt(0).toUpperCase() + coinId.slice(1);
-}
-
 export function AlertsScreen() {
   const { alerts, loading, refreshing, error, refresh, removeAlert } = useAlerts();
 
@@ -54,7 +50,7 @@ export function AlertsScreen() {
           >
             <View className="py-4 border-x-0 border-t-0 border-b border-hairline bg-white flex-row items-center justify-between">
               <View>
-                <Text className="font-sans-bold text-[15px] text-ink">{coinLabel(item.coin_id)}</Text>
+                <Text className="font-sans-bold text-[15px] text-ink">{item.coin?.name ?? item.coin_id}</Text>
                 <Text className="font-sans text-[13px] text-muted mt-0.5">
                   {item.type === "above" ? "Above" : "Below"} ${item.target_price.toLocaleString()}
                 </Text>

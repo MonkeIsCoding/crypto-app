@@ -1,6 +1,6 @@
 import * as alertsRepository from "../repositories/alertsRepository";
 import * as coinsRepository from "../repositories/coinsRepository";
-import { Alert, AlertType } from "../types";
+import { Alert, AlertType, AlertWithCoin } from "../types";
 
 export async function createAlert(userId: string, coinId: string, type: AlertType, targetPrice: number) {
   const alert = await alertsRepository.createAlert(userId, coinId, type, targetPrice);
@@ -23,8 +23,14 @@ export async function removeAlertIfOwner(alertId: string, userId: string): Promi
   return true;
 }
 
-export async function getUserAlerts(userId: string): Promise<Alert[]> {
-  return alertsRepository.getAlertsByUser(userId);
+export async function getUserAlerts(userId: string): Promise<AlertWithCoin[]> {
+  const alerts = await alertsRepository.getAlertsByUser(userId);
+  const coinsById = await coinsRepository.getCoinsByIds(alerts.map((a) => a.coin_id));
+
+  return alerts.map((alert) => ({
+    ...alert,
+    coin: coinsById.get(alert.coin_id) ?? null,
+  }));
 }
 
 function isTriggered(alert: Alert, currentPrice: number): boolean {

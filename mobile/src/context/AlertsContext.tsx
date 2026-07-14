@@ -5,13 +5,13 @@ import {
   presentAlertTriggeredNotification,
   requestNotificationPermissions,
 } from "../services/notifications/notificationService";
-import { Alert } from "../models/Alert";
+import { AlertWithCoin } from "../models/Alert";
 import { useAuth } from "./AuthContext";
 
 const POLL_INTERVAL_MS = 60_000;
 
 interface AlertsContextValue {
-  alerts: Alert[];
+  alerts: AlertWithCoin[];
   loading: boolean;
   refreshing: boolean;
   error: string | null;
@@ -23,7 +23,7 @@ const AlertsContext = createContext<AlertsContextValue | null>(null);
 
 export function AlertsProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [alerts, setAlerts] = useState<AlertWithCoin[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);

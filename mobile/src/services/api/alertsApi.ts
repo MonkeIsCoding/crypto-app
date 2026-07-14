@@ -1,8 +1,8 @@
 import { apiClient } from "./client";
-import { Alert, AlertType } from "../../models/Alert";
+import { Alert, AlertType, AlertWithCoin } from "../../models/Alert";
 
-export async function fetchAlerts(): Promise<Alert[]> {
-  const { data } = await apiClient.get<Alert[]>("/alerts");
+export async function fetchAlerts(): Promise<AlertWithCoin[]> {
+  const { data } = await apiClient.get<AlertWithCoin[]>("/alerts");
   return data;
 }
 
