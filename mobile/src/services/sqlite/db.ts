@@ -24,6 +24,18 @@ function getDb(): Promise<SQLite.SQLiteDatabase> {
           last_updated TEXT NOT NULL
         );`
       );
+      await db.execAsync(
+        `CREATE TABLE IF NOT EXISTS alerts_cache (
+          id TEXT NOT NULL,
+          user_id TEXT NOT NULL,
+          coin_id TEXT NOT NULL,
+          type TEXT NOT NULL,
+          target_price REAL NOT NULL,
+          triggered INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          PRIMARY KEY (user_id, id)
+        );`
+      );
       return db;
     });
   }

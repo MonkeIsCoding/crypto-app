@@ -5,6 +5,7 @@ import {
   removeFromWatchlist as apiRemoveFromWatchlist,
 } from "../services/api/watchlistApi";
 import { getCachedWatchlist, replaceCachedWatchlist } from "../services/sqlite/watchlistCache";
+import { getCachedCoins } from "../services/sqlite/coinsCache";
 import { WatchlistItem } from "../models/Watchlist";
 import { useAuth } from "./AuthContext";
 
@@ -48,8 +49,16 @@ export function WatchlistProvider({ children }: { children: React.ReactNode }) {
         // Backend/network unavailable — fall back to the last synced SQLite cache.
         const cached = await getCachedWatchlist(user.uid);
         if (cached.length > 0) {
+          const cachedCoins = await getCachedCoins();
+          const coinsById = new Map(cachedCoins.map((coin) => [coin.coin_id, coin]));
           setOffline(true);
-          setItems(cached.map((row) => ({ ...row, id: `${row.user_id}:${row.coin_id}`, coin: null })));
+          setItems(
+            cached.map((row) => ({
+              ...row,
+              id: `${row.user_id}:${row.coin_id}`,
+              coin: coinsById.get(row.coin_id) ?? null,
+            }))
+          );
         } else {
           setError("Couldn't load your watchlist.");
         }
