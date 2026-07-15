@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppButton } from "../../components/AppButton";
 import { PriceChart } from "../../components/PriceChart";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
 import { useCoinDetailViewModel } from "../../viewmodels/useCoinDetailViewModel";
@@ -76,23 +77,14 @@ export function CoinDetailScreen({ route }: Props) {
             </Text>
           </View>
 
-          <Pressable
-            className={`rounded-xl border p-3.5 items-center mt-6 ${bg} ${watchlistEntryId ? "border-brand-red" : "border-brand-green"}`}
+          <AppButton
+            label={watchlistEntryId ? "Remove from Watchlist" : "Add to Watchlist"}
+            variant={watchlistEntryId ? "danger-outline" : "green-outline"}
+            className="mt-6"
+            busy={addingToWatchlist}
+            busyLabel={watchlistEntryId ? "Removing..." : "Adding..."}
             onPress={handleToggleWatchlist}
-            disabled={addingToWatchlist}
-          >
-            <Text
-              className={`font-sans-semibold text-[15px] ${watchlistEntryId ? "text-brand-red" : "text-brand-green"}`}
-            >
-              {addingToWatchlist
-                ? watchlistEntryId
-                  ? "Removing..."
-                  : "Adding..."
-                : watchlistEntryId
-                  ? "Remove from Watchlist"
-                  : "Add to Watchlist"}
-            </Text>
-          </Pressable>
+          />
 
           <Text className={`font-sans-bold text-[17px] ${inkText} mt-8 mb-3`}>Create alert</Text>
           <View className="flex-row gap-2 mb-3">
@@ -125,15 +117,12 @@ export function CoinDetailScreen({ route }: Props) {
             value={targetPrice}
             onChangeText={setTargetPrice}
           />
-          <Pressable
-            className="bg-brand-green rounded-xl p-3.5 items-center"
+          <AppButton
+            label="Create alert"
+            busy={creatingAlert}
+            busyLabel="Creating..."
             onPress={handleCreateAlert}
-            disabled={creatingAlert}
-          >
-            <Text className="text-white font-sans-semibold text-[15px]">
-              {creatingAlert ? "Creating..." : "Create alert"}
-            </Text>
-          </Pressable>
+          />
         </ScrollView>
       )}
     </LoadingErrorEmptyWrapper>

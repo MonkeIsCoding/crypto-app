@@ -2,6 +2,7 @@ import React from "react";
 import { Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import { AppButton } from "../../components/AppButton";
 import { useSettingsViewModel } from "../../viewmodels/useSettingsViewModel";
 import { useThemeColors } from "../../theme/colors";
 import { useThemeClasses } from "../../theme/classes";
@@ -76,19 +77,16 @@ export function SettingsScreen() {
           />
         </View>
 
-        <Pressable
-          className={`border ${hairline} rounded-xl p-3.5 items-center ${bg} mt-6`}
+        <AppButton
+          label="Clear offline cache"
+          variant="outline"
+          className="mt-6"
+          busy={clearingCache}
+          busyLabel="Clearing..."
           onPress={handleClearCache}
-          disabled={clearingCache}
-        >
-          <Text className={`${inkText} font-sans-semibold text-[15px]`}>
-            {clearingCache ? "Clearing..." : "Clear offline cache"}
-          </Text>
-        </Pressable>
+        />
 
-        <Pressable className={`border border-brand-red rounded-xl p-3.5 items-center ${bg} mt-3`} onPress={handleLogout}>
-          <Text className="text-brand-red font-sans-semibold text-[15px]">Log out</Text>
-        </Pressable>
+        <AppButton label="Log out" variant="danger-outline" className="mt-3" onPress={handleLogout} />
 
         <Pressable className="items-center mt-6" onPress={handleDeleteAccount} disabled={deletingAccount}>
           <Text className="text-brand-red font-sans-medium text-[13px]">

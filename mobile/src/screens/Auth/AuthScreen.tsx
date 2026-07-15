@@ -2,6 +2,7 @@ import React from "react";
 import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AppButton } from "../../components/AppButton";
 import { useAuthViewModel } from "../../viewmodels/useAuthViewModel";
 import { useThemeColors } from "../../theme/colors";
 import { useThemeClasses } from "../../theme/classes";
@@ -52,15 +53,13 @@ export function AuthScreen({ route }: Props) {
           onChangeText={setPassword}
         />
 
-        <Pressable
-          className="bg-brand-green rounded-2xl p-4 items-center"
+        <AppButton
+          label={mode === "login" ? "Log in" : "Create account"}
+          large
+          busy={submitting}
+          busyLabel="Please wait..."
           onPress={handleSubmit}
-          disabled={submitting}
-        >
-          <Text className="text-white font-sans-semibold text-[15px]">
-            {submitting ? "Please wait..." : mode === "login" ? "Log in" : "Create account"}
-          </Text>
-        </Pressable>
+        />
 
         <Pressable onPress={toggleMode}>
           <Text className="text-brand-green font-sans-medium text-[14px] text-center mt-5">

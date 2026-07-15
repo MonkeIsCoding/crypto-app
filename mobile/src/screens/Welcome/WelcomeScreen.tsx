@@ -1,15 +1,16 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useThemeClasses } from "../../theme/classes";
+import { AppButton } from "../../components/AppButton";
 import { AuthStackParamList } from "../../navigation/AuthStack";
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Welcome">;
 
 export function WelcomeScreen({ navigation }: Props) {
-  const { bg, hairline, inkText, mutedText } = useThemeClasses();
+  const { bg, inkText, mutedText } = useThemeClasses();
 
   return (
     <SafeAreaView className={`flex-1 ${bg} px-6`}>
@@ -23,18 +24,19 @@ export function WelcomeScreen({ navigation }: Props) {
         </Text>
       </View>
 
-      <Pressable
-        className="bg-brand-green rounded-2xl p-4 items-center mb-3"
+      <AppButton
+        label="Create account"
+        large
+        className="mb-3"
         onPress={() => navigation.navigate("Auth", { mode: "register" })}
-      >
-        <Text className="text-white font-sans-semibold text-[15px]">Create account</Text>
-      </Pressable>
-      <Pressable
-        className={`border ${hairline} rounded-2xl p-4 items-center mb-6`}
+      />
+      <AppButton
+        label="Log in"
+        variant="outline"
+        large
+        className="mb-6"
         onPress={() => navigation.navigate("Auth", { mode: "login" })}
-      >
-        <Text className={`font-sans-semibold text-[15px] ${inkText}`}>Log in</Text>
-      </Pressable>
+      />
     </SafeAreaView>
   );
 }
