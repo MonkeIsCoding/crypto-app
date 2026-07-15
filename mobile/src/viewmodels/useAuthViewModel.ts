@@ -4,8 +4,8 @@ import { login, register, resetPassword } from "../services/firebase/authService
 
 type Mode = "login" | "register";
 
-export function useAuthViewModel() {
-  const [mode, setMode] = useState<Mode>("login");
+export function useAuthViewModel(initialMode: Mode = "login") {
+  const [mode, setMode] = useState<Mode>(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
