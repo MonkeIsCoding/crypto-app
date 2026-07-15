@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Alert as RNAlert } from "react-native";
 import { logout } from "../services/firebase/authService";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import {
   getAlertNotificationsEnabled,
   setAlertNotificationsEnabled,
@@ -12,6 +13,7 @@ import { deleteAccount as apiDeleteAccount } from "../services/api/accountApi";
 
 export function useSettingsViewModel() {
   const { user } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [clearingCache, setClearingCache] = useState(false);
   const [deletingAccount, setDeletingAccount] = useState(false);
@@ -81,5 +83,7 @@ export function useSettingsViewModel() {
     handleClearCache,
     deletingAccount,
     handleDeleteAccount,
+    isDarkMode,
+    toggleDarkMode,
   };
 }

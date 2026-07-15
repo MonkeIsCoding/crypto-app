@@ -1,5 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
+import { useTheme } from "../context/ThemeContext";
 
 interface Props {
   loading: boolean;
@@ -16,9 +17,13 @@ export function LoadingErrorEmptyWrapper({
   emptyMessage = "Nothing to show yet.",
   children,
 }: Props) {
+  const { isDarkMode } = useTheme();
+  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
+  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
+
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center p-6 bg-white">
+      <View className={`flex-1 items-center justify-center p-6 ${bg}`}>
         <ActivityIndicator size="large" color="#1E7A46" />
       </View>
     );
@@ -26,7 +31,7 @@ export function LoadingErrorEmptyWrapper({
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center p-6 bg-white">
+      <View className={`flex-1 items-center justify-center p-6 ${bg}`}>
         <Text className="text-brand-red text-center font-sans-medium">{error}</Text>
       </View>
     );
@@ -34,8 +39,8 @@ export function LoadingErrorEmptyWrapper({
 
   if (isEmpty) {
     return (
-      <View className="flex-1 items-center justify-center p-6 bg-white">
-        <Text className="text-muted text-center font-sans">{emptyMessage}</Text>
+      <View className={`flex-1 items-center justify-center p-6 ${bg}`}>
+        <Text className={`${mutedText} text-center font-sans`}>{emptyMessage}</Text>
       </View>
     );
   }

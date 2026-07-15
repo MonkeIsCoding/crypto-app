@@ -4,9 +4,16 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
 import { useAlerts } from "../../context/AlertsContext";
+import { useTheme } from "../../context/ThemeContext";
 
 export function AlertsScreen() {
   const { alerts, loading, refreshing, error, refresh, removeAlert } = useAlerts();
+  const { isDarkMode } = useTheme();
+  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
+  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
+  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
+  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
+  const greenLightBg = isDarkMode ? "bg-dark-green-light" : "bg-brand-green-light";
 
   useFocusEffect(
     useCallback(() => {
@@ -31,7 +38,7 @@ export function AlertsScreen() {
       emptyMessage="No alerts yet. Create one from a coin's detail page."
     >
       <FlatList
-        className="flex-1 bg-white px-4"
+        className={`flex-1 ${bg} px-4`}
         data={alerts}
         keyExtractor={(alert) => alert.id}
         onRefresh={() => refresh()}
@@ -48,19 +55,19 @@ export function AlertsScreen() {
               </Pressable>
             )}
           >
-            <View className="py-4 border-x-0 border-t-0 border-b border-hairline bg-white flex-row items-center justify-between">
+            <View className={`py-4 border-x-0 border-t-0 border-b ${hairline} ${bg} flex-row items-center justify-between`}>
               <View>
-                <Text className="font-sans-bold text-[15px] text-ink">{item.coin?.name ?? item.coin_id}</Text>
-                <Text className="font-sans text-[13px] text-muted mt-0.5">
+                <Text className={`font-sans-bold text-[15px] ${inkText}`}>{item.coin?.name ?? item.coin_id}</Text>
+                <Text className={`font-sans text-[13px] ${mutedText} mt-0.5`}>
                   {item.type === "above" ? "Above" : "Below"} ${item.target_price.toLocaleString()}
                 </Text>
               </View>
               {item.triggered ? (
-                <View className="bg-brand-green-light rounded-full px-2.5 py-1">
+                <View className={`${greenLightBg} rounded-full px-2.5 py-1`}>
                   <Text className="text-brand-green font-sans-semibold text-[12px]">Triggered</Text>
                 </View>
               ) : (
-                <Text className="text-muted font-sans-medium text-[13px]">Watching</Text>
+                <Text className={`${mutedText} font-sans-medium text-[13px]`}>Watching</Text>
               )}
             </View>
           </Swipeable>

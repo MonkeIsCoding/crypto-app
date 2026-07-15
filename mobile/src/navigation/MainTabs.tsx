@@ -5,7 +5,7 @@ import { HomeStack } from "./HomeStack";
 import { WatchlistStack } from "./WatchlistStack";
 import { AlertsScreen } from "../screens/Alerts/AlertsScreen";
 import { SettingsScreen } from "../screens/Settings/SettingsScreen";
-import { colors } from "../theme/colors";
+import { useThemeColors } from "../theme/colors";
 
 export type MainTabsParamList = {
   Home: undefined;
@@ -24,14 +24,16 @@ const ICONS: Record<keyof MainTabsParamList, { active: keyof typeof Ionicons.gly
 };
 
 export function MainTabs() {
+  const colors = useThemeColors();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: colors.green,
+        tabBarActiveTintColor: colors.brandGreen,
         tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
-          backgroundColor: colors.white,
+          backgroundColor: colors.background,
           borderTopColor: colors.hairline,
           borderTopWidth: 1,
         },
@@ -48,6 +50,7 @@ export function MainTabs() {
         ),
         headerTitleStyle: { fontFamily: "Manrope_700Bold", color: colors.ink },
         headerTintColor: colors.ink,
+        headerStyle: { backgroundColor: colors.background },
         headerShadowVisible: false,
       })}
     >

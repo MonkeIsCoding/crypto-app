@@ -1,7 +1,8 @@
 import React from "react";
 import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput } from "react-native";
 import { useAuthViewModel } from "../../viewmodels/useAuthViewModel";
-import { colors } from "../../theme/colors";
+import { useThemeColors } from "../../theme/colors";
+import { useTheme } from "../../context/ThemeContext";
 
 export function AuthScreen() {
   const {
@@ -15,18 +16,23 @@ export function AuthScreen() {
     handleSubmit,
     handleForgotPassword,
   } = useAuthViewModel();
+  const colors = useThemeColors();
+  const { isDarkMode } = useTheme();
+  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
+  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
+  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 justify-center p-6 bg-white"
+      className={`flex-1 justify-center p-6 ${bg}`}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <Text className="font-sans-extrabold text-[26px] text-ink mb-8 text-center">
+      <Text className={`font-sans-extrabold text-[26px] ${inkText} mb-8 text-center`}>
         {mode === "login" ? "Log in" : "Create account"}
       </Text>
 
       <TextInput
-        className="border border-hairline rounded-2xl p-4 mb-3 font-sans text-[15px] text-ink"
+        className={`border ${hairline} rounded-2xl p-4 mb-3 font-sans text-[15px] ${inkText}`}
         placeholder="Email"
         placeholderTextColor={colors.muted}
         autoCapitalize="none"
@@ -35,7 +41,7 @@ export function AuthScreen() {
         onChangeText={setEmail}
       />
       <TextInput
-        className="border border-hairline rounded-2xl p-4 mb-4 font-sans text-[15px] text-ink"
+        className={`border ${hairline} rounded-2xl p-4 mb-4 font-sans text-[15px] ${inkText}`}
         placeholder="Password"
         placeholderTextColor={colors.muted}
         secureTextEntry

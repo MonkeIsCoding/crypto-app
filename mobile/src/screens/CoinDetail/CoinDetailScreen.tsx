@@ -6,7 +6,8 @@ import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrap
 import { useCoinDetailViewModel } from "../../viewmodels/useCoinDetailViewModel";
 import { HomeStackParamList } from "../../navigation/HomeStack";
 import { WatchlistStackParamList } from "../../navigation/WatchlistStack";
-import { colors } from "../../theme/colors";
+import { useThemeColors } from "../../theme/colors";
+import { useTheme } from "../../context/ThemeContext";
 
 type Props = NativeStackScreenProps<HomeStackParamList | WatchlistStackParamList, "CoinDetail">;
 
@@ -26,19 +27,25 @@ export function CoinDetailScreen({ route }: Props) {
     creatingAlert,
     handleCreateAlert,
   } = useCoinDetailViewModel(coinId);
+  const colors = useThemeColors();
+  const { isDarkMode } = useTheme();
+  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
+  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
+  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
+  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
 
   return (
     <LoadingErrorEmptyWrapper loading={loading} error={error} isEmpty={!coin}>
       {coin && (
         <ScrollView
-          className="flex-1 bg-white"
+          className={`flex-1 ${bg}`}
           contentContainerClassName="p-4"
           showsVerticalScrollIndicator={false}
         >
-          <Text className="font-sans-medium text-[15px] text-muted">
+          <Text className={`font-sans-medium text-[15px] ${mutedText}`}>
             {coin.name} · {coin.symbol.toUpperCase()}
           </Text>
-          <Text className="font-sans-extrabold text-[34px] text-ink mt-1 tabular-nums">
+          <Text className={`font-sans-extrabold text-[34px] ${inkText} mt-1 tabular-nums`}>
             ${coin.price.toLocaleString()}
           </Text>
           <Text
@@ -60,21 +67,21 @@ export function CoinDetailScreen({ route }: Props) {
             isPositive={coin.price_change_24h >= 0}
           />
 
-          <View className="flex-row justify-between py-3.5 bg-white border-x-0 border-t-0 border-b border-hairline">
-            <Text className="font-sans text-[14px] text-muted">Market cap</Text>
-            <Text className="font-sans-semibold text-[14px] text-ink tabular-nums">
+          <View className={`flex-row justify-between py-3.5 ${bg} border-x-0 border-t-0 border-b ${hairline}`}>
+            <Text className={`font-sans text-[14px] ${mutedText}`}>Market cap</Text>
+            <Text className={`font-sans-semibold text-[14px] ${inkText} tabular-nums`}>
               ${coin.market_cap.toLocaleString()}
             </Text>
           </View>
-          <View className="flex-row justify-between py-3.5 bg-white border-x-0 border-t-0 border-b border-hairline">
-            <Text className="font-sans text-[14px] text-muted">Last updated</Text>
-            <Text className="font-sans-semibold text-[14px] text-ink">
+          <View className={`flex-row justify-between py-3.5 ${bg} border-x-0 border-t-0 border-b ${hairline}`}>
+            <Text className={`font-sans text-[14px] ${mutedText}`}>Last updated</Text>
+            <Text className={`font-sans-semibold text-[14px] ${inkText}`}>
               {new Date(coin.last_updated).toLocaleString()}
             </Text>
           </View>
 
           <Pressable
-            className={`rounded-xl border p-3.5 items-center mt-6 bg-white ${watchlistEntryId ? "border-brand-red" : "border-brand-green"}`}
+            className={`rounded-xl border p-3.5 items-center mt-6 ${bg} ${watchlistEntryId ? "border-brand-red" : "border-brand-green"}`}
             onPress={handleToggleWatchlist}
             disabled={addingToWatchlist}
           >
@@ -91,31 +98,31 @@ export function CoinDetailScreen({ route }: Props) {
             </Text>
           </Pressable>
 
-          <Text className="font-sans-bold text-[17px] text-ink mt-8 mb-3">Create alert</Text>
+          <Text className={`font-sans-bold text-[17px] ${inkText} mt-8 mb-3`}>Create alert</Text>
           <View className="flex-row gap-2 mb-3">
             <Pressable
-              className={`flex-1 rounded-xl p-3 items-center border ${alertType === "above" ? "bg-brand-green border-brand-green" : "bg-white border-hairline"}`}
+              className={`flex-1 rounded-xl p-3 items-center border ${alertType === "above" ? "bg-brand-green border-brand-green" : `${bg} ${hairline}`}`}
               onPress={() => setAlertType("above")}
             >
               <Text
-                className={`font-sans-semibold text-[15px] ${alertType === "above" ? "text-white" : "text-ink"}`}
+                className={`font-sans-semibold text-[15px] ${alertType === "above" ? "text-white" : inkText}`}
               >
                 Above
               </Text>
             </Pressable>
             <Pressable
-              className={`flex-1 rounded-xl p-3 items-center border ${alertType === "below" ? "bg-brand-green border-brand-green" : "bg-white border-hairline"}`}
+              className={`flex-1 rounded-xl p-3 items-center border ${alertType === "below" ? "bg-brand-green border-brand-green" : `${bg} ${hairline}`}`}
               onPress={() => setAlertType("below")}
             >
               <Text
-                className={`font-sans-semibold text-[15px] ${alertType === "below" ? "text-white" : "text-ink"}`}
+                className={`font-sans-semibold text-[15px] ${alertType === "below" ? "text-white" : inkText}`}
               >
                 Below
               </Text>
             </Pressable>
           </View>
           <TextInput
-            className="border border-hairline rounded-xl p-3.5 mb-3 font-sans text-[15px] text-ink"
+            className={`border ${hairline} rounded-xl p-3.5 mb-3 font-sans text-[15px] ${inkText}`}
             placeholder="Target price (USD)"
             placeholderTextColor={colors.muted}
             keyboardType="decimal-pad"

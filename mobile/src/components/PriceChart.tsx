@@ -1,6 +1,7 @@
 import React from "react";
 import { Dimensions, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import { useThemeColors } from "../theme/colors";
 
 interface Props {
   labels: string[];
@@ -33,9 +34,13 @@ function buildAxisFormatter(prices: number[]): (value: string) => string {
 }
 
 export function PriceChart({ labels, prices, isPositive = true }: Props) {
+  const colors = useThemeColors();
+
   if (prices.length === 0) return null;
 
   const lineColor = isPositive ? "16, 185, 129" : "239, 68, 68";
+  const backgroundColor = colors.background;
+  const labelColor = colors.muted === "#9CA3AF" ? "156, 163, 175" : "107, 114, 128";
   const formatAxisLabel = buildAxisFormatter(prices);
 
   return (
@@ -50,12 +55,12 @@ export function PriceChart({ labels, prices, isPositive = true }: Props) {
         withVerticalLabels={false}
         formatYLabel={formatAxisLabel}
         chartConfig={{
-          backgroundColor: "#fff",
-          backgroundGradientFrom: "#fff",
-          backgroundGradientTo: "#fff",
+          backgroundColor,
+          backgroundGradientFrom: backgroundColor,
+          backgroundGradientTo: backgroundColor,
           decimalPlaces: 6,
           color: (opacity = 1) => `rgba(${lineColor}, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(107, 114, 128, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(${labelColor}, ${opacity})`,
           fillShadowGradientFrom: `rgb(${lineColor})`,
           fillShadowGradientFromOpacity: 0.15,
           fillShadowGradientTo: `rgb(${lineColor})`,

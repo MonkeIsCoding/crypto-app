@@ -5,12 +5,16 @@ import { useFocusEffect } from "@react-navigation/native";
 import { CoinListItem } from "../../components/CoinListItem";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
 import { useWatchlist } from "../../context/WatchlistContext";
+import { useTheme } from "../../context/ThemeContext";
 import { WatchlistStackParamList } from "../../navigation/WatchlistStack";
 
 type Props = NativeStackScreenProps<WatchlistStackParamList, "WatchlistList">;
 
 export function WatchlistScreen({ navigation }: Props) {
   const { items, loading, refreshing, error, offline, refresh } = useWatchlist();
+  const { isDarkMode } = useTheme();
+  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
+  const banner = isDarkMode ? "bg-amber-900 text-amber-200" : "bg-amber-100 text-amber-800";
 
   useFocusEffect(
     useCallback(() => {
@@ -21,7 +25,7 @@ export function WatchlistScreen({ navigation }: Props) {
   return (
     <>
       {offline && (
-        <Text className="bg-[#fff3cd] text-[#856404] text-center p-1.5 text-xs font-sans-medium">
+        <Text className={`${banner} text-center p-1.5 text-xs font-sans-medium`}>
           Offline — showing last synced watchlist
         </Text>
       )}
@@ -32,7 +36,7 @@ export function WatchlistScreen({ navigation }: Props) {
         emptyMessage="Your watchlist is empty. Add coins from Home."
       >
         <FlatList
-          className="flex-1 px-4 bg-white"
+          className={`flex-1 px-4 ${bg}`}
           data={items}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.id}

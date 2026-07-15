@@ -2,6 +2,7 @@
 module.exports = {
   content: ["./App.tsx", "./src/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
@@ -12,6 +13,13 @@ module.exports = {
           green: "#1E7A46",
           "green-light": "#E7F5EC",
           red: "#DC2626",
+        },
+        dark: {
+          bg: "#0B0D12",
+          ink: "#F3F4F6",
+          muted: "#9CA3AF",
+          hairline: "#2A2D34",
+          "green-light": "#123322",
         },
       },
       fontFamily: {
