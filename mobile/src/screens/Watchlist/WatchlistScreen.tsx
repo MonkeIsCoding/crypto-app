@@ -5,14 +5,14 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useFocusEffect } from "@react-navigation/native";
 import { CoinListItem } from "../../components/CoinListItem";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
-import { useWatchlist } from "../../context/WatchlistContext";
+import { useWatchlistViewModel } from "../../viewmodels/useWatchlistViewModel";
 import { useTheme } from "../../context/ThemeContext";
 import { WatchlistStackParamList } from "../../navigation/WatchlistStack";
 
 type Props = NativeStackScreenProps<WatchlistStackParamList, "WatchlistList">;
 
 export function WatchlistScreen({ navigation }: Props) {
-  const { items, loading, refreshing, error, offline, refresh } = useWatchlist();
+  const { items, loading, refreshing, error, offline, refresh } = useWatchlistViewModel();
   const { isDarkMode } = useTheme();
   const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
   const inkText = isDarkMode ? "text-dark-ink" : "text-ink";

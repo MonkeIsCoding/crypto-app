@@ -113,11 +113,19 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  const removeAlert = useCallback(async (alertId: string) => {
-    setAlerts((current) => current.filter((alert) => alert.id !== alertId));
-    triggeredIdsRef.current?.delete(alertId);
-    await apiRemoveAlert(alertId);
-  }, []);
+  const removeAlert = useCallback(
+    async (alertId: string) => {
+      setAlerts((current) => current.filter((alert) => alert.id !== alertId));
+      triggeredIdsRef.current?.delete(alertId);
+      try {
+        await apiRemoveAlert(alertId);
+      } catch (err) {
+        // Roll back on failure and let the user retry.
+        await refresh({ silent: true });
+      }
+    },
+    [refresh]
+  );
 
   const value = useMemo(
     () => ({ alerts, loading, refreshing, error, offline, refresh, removeAlert }),

@@ -90,18 +90,27 @@ export function WatchlistProvider({ children }: { children: React.ReactNode }) {
   const addCoin = useCallback(
     async (coinId: string) => {
       if (!user) return;
-      await apiAddToWatchlist(coinId);
-      await refresh({ silent: true });
+      const created = await apiAddToWatchlist(coinId);
+      const cachedCoins = await getCachedCoins();
+      setItems((current) => [
+        ...current,
+        { ...created, coin: cachedCoins.find((coin) => coin.coin_id === coinId) ?? null },
+      ]);
     },
-    [user, refresh]
+    [user]
   );
 
   const removeCoin = useCallback(
     async (coinId: string) => {
       const entryId = isWatchlisted(coinId);
       if (!entryId) return;
-      await apiRemoveFromWatchlist(entryId);
-      await refresh({ silent: true });
+      setItems((current) => current.filter((item) => item.id !== entryId));
+      try {
+        await apiRemoveFromWatchlist(entryId);
+      } catch (err) {
+        await refresh({ silent: true });
+        throw err;
+      }
     },
     [isWatchlisted, refresh]
   );

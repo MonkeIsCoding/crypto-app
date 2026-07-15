@@ -4,11 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
-import { useAlerts } from "../../context/AlertsContext";
+import { useAlertsViewModel } from "../../viewmodels/useAlertsViewModel";
 import { useTheme } from "../../context/ThemeContext";
 
 export function AlertsScreen() {
-  const { alerts, loading, refreshing, error, offline, refresh, removeAlert } = useAlerts();
+  const { alerts, loading, refreshing, error, offline, refresh, removeAlert } = useAlertsViewModel();
   const { isDarkMode } = useTheme();
   const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
   const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
@@ -22,15 +22,6 @@ export function AlertsScreen() {
       refresh({ silent: true });
     }, [refresh])
   );
-
-  async function handleDelete(alertId: string) {
-    try {
-      await removeAlert(alertId);
-    } catch (err) {
-      // Roll back on failure and let the user retry.
-      refresh({ silent: true });
-    }
-  }
 
   return (
     <SafeAreaView className={`flex-1 ${bg}`} edges={["top"]}>
@@ -58,7 +49,7 @@ export function AlertsScreen() {
             renderRightActions={() => (
               <Pressable
                 className="bg-brand-red justify-center items-center w-[88px] rounded-xl my-1"
-                onPress={() => handleDelete(item.id)}
+                onPress={() => removeAlert(item.id)}
               >
                 <Text className="text-white font-sans-semibold text-[15px]">Delete</Text>
               </Pressable>
