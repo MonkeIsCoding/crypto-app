@@ -1,4 +1,4 @@
-jest.mock("../config/firebase");
+jest.mock("../config/firebase", () => ({ db: {} }));
 
 import { isTriggered } from "../services/alertsService";
 import { Alert } from "../types";

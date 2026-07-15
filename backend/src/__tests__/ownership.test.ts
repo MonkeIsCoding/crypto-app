@@ -1,4 +1,4 @@
-jest.mock("../config/firebase");
+jest.mock("../config/firebase", () => ({ db: {} }));
 jest.mock("../repositories/watchlistRepository");
 jest.mock("../repositories/alertsRepository");
 
