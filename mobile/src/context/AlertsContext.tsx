@@ -5,6 +5,7 @@ import {
   presentAlertTriggeredNotification,
   requestNotificationPermissions,
 } from "../services/notifications/notificationService";
+import { getAlertNotificationsEnabled } from "../services/preferences/notificationPreference";
 import { AlertWithCoin } from "../models/Alert";
 import { useAuth } from "./AuthContext";
 
@@ -47,8 +48,10 @@ export function AlertsProvider({ children }: { children: React.ReactNode }) {
             : data.filter((alert) => alert.triggered && !triggeredIdsRef.current!.has(alert.id));
         triggeredIdsRef.current = new Set(currentlyTriggered);
         setAlerts(data);
-        for (const alert of newlyTriggered) {
-          presentAlertTriggeredNotification(alert).catch(() => {});
+        if (newlyTriggered.length > 0 && (await getAlertNotificationsEnabled())) {
+          for (const alert of newlyTriggered) {
+            presentAlertTriggeredNotification(alert).catch(() => {});
+          }
         }
       } catch (err) {
         setError("Couldn't load alerts.");
