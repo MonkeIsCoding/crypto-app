@@ -23,7 +23,7 @@ export function HomeStack() {
         headerStyle: { backgroundColor: colors.background },
       }}
     >
-      <Stack.Screen name="HomeList" component={HomeScreen} options={{ title: "Home" }} />
+      <Stack.Screen name="HomeList" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CoinDetail" component={CoinDetailScreen} options={{ title: "Coin", headerBackTitle: "Home" }} />
     </Stack.Navigator>
   );

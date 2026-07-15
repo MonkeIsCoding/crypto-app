@@ -23,7 +23,7 @@ export function WatchlistStack() {
         headerStyle: { backgroundColor: colors.background },
       }}
     >
-      <Stack.Screen name="WatchlistList" component={WatchlistScreen} options={{ title: "Watchlist" }} />
+      <Stack.Screen name="WatchlistList" component={WatchlistScreen} options={{ headerShown: false }} />
       <Stack.Screen
         name="CoinDetail"
         component={CoinDetailScreen}

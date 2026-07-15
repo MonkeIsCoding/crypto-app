@@ -56,8 +56,8 @@ export function MainTabs() {
     >
       <Tab.Screen name="Home" component={HomeStack} options={{ popToTopOnBlur: true }} />
       <Tab.Screen name="Watchlist" component={WatchlistStack} options={{ popToTopOnBlur: true }} />
-      <Tab.Screen name="Alerts" component={AlertsScreen} options={{ headerShown: true }} />
-      <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: true }} />
+      <Tab.Screen name="Alerts" component={AlertsScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }
