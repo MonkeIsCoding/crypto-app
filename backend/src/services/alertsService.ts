@@ -33,7 +33,7 @@ export async function getUserAlerts(userId: string): Promise<AlertWithCoin[]> {
   }));
 }
 
-function isTriggered(alert: Alert, currentPrice: number): boolean {
+export function isTriggered(alert: Alert, currentPrice: number): boolean {
   return alert.type === "above" ? currentPrice >= alert.target_price : currentPrice <= alert.target_price;
 }
 
