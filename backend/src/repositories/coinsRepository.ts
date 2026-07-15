@@ -24,10 +24,6 @@ export async function getCoinsByIds(coinIds: string[]): Promise<Map<string, Coin
   return result;
 }
 
-export async function upsertCoin(coin: CoinCache): Promise<void> {
-  await db.collection(COLLECTION).doc(coin.coin_id).set(coin, { merge: true });
-}
-
 export async function upsertCoins(coins: CoinCache[]): Promise<void> {
   const batch = db.batch();
   coins.forEach((coin) => {

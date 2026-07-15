@@ -1,13 +1,5 @@
 import "dotenv/config";
 
-function required(name: string, fallback?: string): string {
-  const value = process.env[name] ?? fallback;
-  if (value === undefined) {
-    throw new Error(`Missing required env var: ${name}`);
-  }
-  return value;
-}
-
 export const env = {
   port: Number(process.env.PORT ?? 3000),
   firebase: {
@@ -24,5 +16,3 @@ export const env = {
     .filter(Boolean),
   cronSchedule: process.env.CRON_SCHEDULE ?? "0 3 * * *",
 };
-
-export { required };
