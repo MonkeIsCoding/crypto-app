@@ -10,6 +10,8 @@ export function SettingsScreen() {
     toggleNotifications,
     clearingCache,
     handleClearCache,
+    deletingAccount,
+    handleDeleteAccount,
   } = useSettingsViewModel();
 
   const memberSince = user?.metadata.creationTime
@@ -46,6 +48,12 @@ export function SettingsScreen() {
 
       <Pressable className="border border-brand-red rounded-xl p-3.5 items-center bg-white mt-3" onPress={handleLogout}>
         <Text className="text-brand-red font-sans-semibold text-[15px]">Log out</Text>
+      </Pressable>
+
+      <Pressable className="items-center mt-8" onPress={handleDeleteAccount} disabled={deletingAccount}>
+        <Text className="text-brand-red font-sans-medium text-[13px]">
+          {deletingAccount ? "Deleting account..." : "Delete account"}
+        </Text>
       </Pressable>
     </View>
   );

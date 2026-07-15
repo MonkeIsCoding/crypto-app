@@ -3,6 +3,7 @@ import cors from "cors";
 import coinsRoutes from "./routes/coinsRoutes";
 import watchlistRoutes from "./routes/watchlistRoutes";
 import alertsRoutes from "./routes/alertsRoutes";
+import accountRoutes from "./routes/accountRoutes";
 
 export function createApp() {
   const app = express();
@@ -15,6 +16,7 @@ export function createApp() {
   app.use("/coins", coinsRoutes);
   app.use("/watchlist", watchlistRoutes);
   app.use("/alerts", alertsRoutes);
+  app.use("/account", accountRoutes);
 
   app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     console.error(err);

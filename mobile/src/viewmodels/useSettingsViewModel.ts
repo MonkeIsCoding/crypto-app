@@ -8,11 +8,13 @@ import {
 } from "../services/preferences/notificationPreference";
 import { replaceCachedCoins } from "../services/sqlite/coinsCache";
 import { replaceCachedWatchlist } from "../services/sqlite/watchlistCache";
+import { deleteAccount as apiDeleteAccount } from "../services/api/accountApi";
 
 export function useSettingsViewModel() {
   const { user } = useAuth();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [clearingCache, setClearingCache] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
 
   useEffect(() => {
     getAlertNotificationsEnabled().then(setNotificationsEnabled);
@@ -45,6 +47,31 @@ export function useSettingsViewModel() {
     }
   }
 
+  function handleDeleteAccount() {
+    RNAlert.alert(
+      "Delete account",
+      "This permanently deletes your account, watchlist, and alerts. This can't be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            setDeletingAccount(true);
+            try {
+              await apiDeleteAccount();
+              await logout();
+            } catch (err) {
+              RNAlert.alert("Error", "Couldn't delete your account.");
+            } finally {
+              setDeletingAccount(false);
+            }
+          },
+        },
+      ]
+    );
+  }
+
   return {
     user,
     handleLogout,
@@ -52,5 +79,7 @@ export function useSettingsViewModel() {
     toggleNotifications,
     clearingCache,
     handleClearCache,
+    deletingAccount,
+    handleDeleteAccount,
   };
 }

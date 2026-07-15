@@ -35,3 +35,10 @@ export async function getWatchlistByUser(userId: string): Promise<WatchlistEntry
   const snapshot = await db.collection(COLLECTION).where("user_id", "==", userId).get();
   return snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as Omit<WatchlistEntry, "id">) }));
 }
+
+export async function deleteAllForUser(userId: string): Promise<void> {
+  const snapshot = await db.collection(COLLECTION).where("user_id", "==", userId).get();
+  const batch = db.batch();
+  snapshot.docs.forEach((doc) => batch.delete(doc.ref));
+  await batch.commit();
+}

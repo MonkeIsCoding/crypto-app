@@ -36,6 +36,13 @@ export async function getAlertsByUser(userId: string): Promise<Alert[]> {
   return snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as Omit<Alert, "id">) }));
 }
 
+export async function deleteAllForUser(userId: string): Promise<void> {
+  const snapshot = await db.collection(COLLECTION).where("user_id", "==", userId).get();
+  const batch = db.batch();
+  snapshot.docs.forEach((doc) => batch.delete(doc.ref));
+  await batch.commit();
+}
+
 export async function getUntriggeredAlerts(): Promise<Alert[]> {
   const snapshot = await db.collection(COLLECTION).where("triggered", "==", false).get();
   return snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as Omit<Alert, "id">) }));
