@@ -13,7 +13,7 @@ A cryptocurrency tracking app: browse live-ish prices, keep a personal watchlist
 - A **Firebase project** with Email/Password Auth enabled and Firestore created
 - To run the app: the **Expo Go** app on a phone, or an **iOS Simulator** / Android emulator
 
-> **Grader shortcut:** if a filled `.env` was provided with the submission, place it in `backend/` and skip the Firebase service-account setup below — the app is then ready to run against the existing project.
+> **Shortcut:** a filled `.env` was provided with the submission, place it in `backend/` and skip the Firebase service-account setup below — the app is then ready to run against the existing project.
 
 ## 1. Backend
 
