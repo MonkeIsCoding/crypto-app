@@ -7,6 +7,7 @@ import {
   getAlertNotificationsEnabled,
   setAlertNotificationsEnabled,
 } from "../services/preferences/notificationPreference";
+import { replaceCachedAlerts } from "../services/sqlite/alertsCache";
 import { replaceCachedCoins } from "../services/sqlite/coinsCache";
 import { replaceCachedWatchlist } from "../services/sqlite/watchlistCache";
 import { deleteAccount as apiDeleteAccount } from "../services/api/accountApi";
@@ -41,6 +42,7 @@ export function useSettingsViewModel() {
     try {
       await replaceCachedCoins([]);
       await replaceCachedWatchlist(user.uid, []);
+      await replaceCachedAlerts(user.uid, []);
       RNAlert.alert("Cache cleared", "Offline data has been cleared.");
     } catch (err) {
       RNAlert.alert("Error", "Couldn't clear the offline cache.");
