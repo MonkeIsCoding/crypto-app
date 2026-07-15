@@ -7,7 +7,7 @@ import { useCoinDetailViewModel } from "../../viewmodels/useCoinDetailViewModel"
 import { HomeStackParamList } from "../../navigation/HomeStack";
 import { WatchlistStackParamList } from "../../navigation/WatchlistStack";
 import { useThemeColors } from "../../theme/colors";
-import { useTheme } from "../../context/ThemeContext";
+import { useThemeClasses } from "../../theme/classes";
 
 type Props = NativeStackScreenProps<HomeStackParamList | WatchlistStackParamList, "CoinDetail">;
 
@@ -28,11 +28,7 @@ export function CoinDetailScreen({ route }: Props) {
     handleCreateAlert,
   } = useCoinDetailViewModel(coinId);
   const colors = useThemeColors();
-  const { isDarkMode } = useTheme();
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
-  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
-  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
+  const { bg, hairline, inkText, mutedText } = useThemeClasses();
 
   return (
     <LoadingErrorEmptyWrapper loading={loading} error={error} isEmpty={!coin}>

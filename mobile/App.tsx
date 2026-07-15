@@ -12,12 +12,14 @@ import {
 } from "@expo-google-fonts/manrope";
 import { AuthProvider } from "./src/context/AuthContext";
 import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
+import { useThemeClasses } from "./src/theme/classes";
 import { WatchlistProvider } from "./src/context/WatchlistContext";
 import { AlertsProvider } from "./src/context/AlertsContext";
 import { RootNavigator } from "./src/navigation/RootNavigator";
 
 function AppContent() {
   const { isDarkMode, isReady } = useTheme();
+  const { bg } = useThemeClasses();
   const [fontsLoaded] = useFonts({
     Manrope_400Regular,
     Manrope_500Medium,
@@ -28,7 +30,7 @@ function AppContent() {
 
   if (!fontsLoaded || !isReady) {
     return (
-      <View className={`flex-1 items-center justify-center ${isDarkMode ? "bg-dark-bg" : "bg-white"}`}>
+      <View className={`flex-1 items-center justify-center ${bg}`}>
         <ActivityIndicator size="large" color="#1E7A46" />
       </View>
     );

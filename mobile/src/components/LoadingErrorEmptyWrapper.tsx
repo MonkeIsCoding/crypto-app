@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import { useTheme } from "../context/ThemeContext";
+import { useThemeClasses } from "../theme/classes";
 
 interface Props {
   loading: boolean;
@@ -17,9 +17,7 @@ export function LoadingErrorEmptyWrapper({
   emptyMessage = "Nothing to show yet.",
   children,
 }: Props) {
-  const { isDarkMode } = useTheme();
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
+  const { bg, mutedText } = useThemeClasses();
 
   if (loading) {
     return (

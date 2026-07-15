@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useAuthViewModel } from "../../viewmodels/useAuthViewModel";
 import { useThemeColors } from "../../theme/colors";
-import { useTheme } from "../../context/ThemeContext";
+import { useThemeClasses } from "../../theme/classes";
 import { AuthStackParamList } from "../../navigation/AuthStack";
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Auth">;
@@ -22,10 +22,7 @@ export function AuthScreen({ route }: Props) {
     handleForgotPassword,
   } = useAuthViewModel(route.params.mode);
   const colors = useThemeColors();
-  const { isDarkMode } = useTheme();
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
-  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
+  const { bg, hairline, inkText } = useThemeClasses();
 
   return (
     <SafeAreaView className={`flex-1 ${bg}`} edges={["top"]}>

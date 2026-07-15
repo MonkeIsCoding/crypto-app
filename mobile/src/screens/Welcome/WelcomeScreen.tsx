@@ -3,17 +3,13 @@ import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useTheme } from "../../context/ThemeContext";
+import { useThemeClasses } from "../../theme/classes";
 import { AuthStackParamList } from "../../navigation/AuthStack";
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Welcome">;
 
 export function WelcomeScreen({ navigation }: Props) {
-  const { isDarkMode } = useTheme();
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
-  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
-  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
+  const { bg, hairline, inkText, mutedText } = useThemeClasses();
 
   return (
     <SafeAreaView className={`flex-1 ${bg} px-6`}>

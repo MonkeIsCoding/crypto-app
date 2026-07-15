@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { Coin } from "../models/Coin";
-import { useTheme } from "../context/ThemeContext";
+import { useThemeClasses } from "../theme/classes";
 
 interface Props {
   coin: Coin;
@@ -9,12 +9,8 @@ interface Props {
 }
 
 export const CoinListItem = React.memo(function CoinListItem({ coin, onPress }: Props) {
-  const { isDarkMode } = useTheme();
+  const { bg, hairline, inkText, mutedText } = useThemeClasses();
   const isPositive = coin.price_change_24h >= 0;
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
-  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
-  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
 
   return (
     <Pressable

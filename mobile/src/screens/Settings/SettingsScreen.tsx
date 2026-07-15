@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useSettingsViewModel } from "../../viewmodels/useSettingsViewModel";
 import { useThemeColors } from "../../theme/colors";
+import { useThemeClasses } from "../../theme/classes";
 
 export function SettingsScreen() {
   const {
@@ -19,12 +20,7 @@ export function SettingsScreen() {
     toggleDarkMode,
   } = useSettingsViewModel();
   const colors = useThemeColors();
-
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
-  const pillBg = isDarkMode ? "bg-dark-hairline" : "bg-hairline";
-  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
-  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
+  const { bg, hairline, pillBg, inkText, mutedText } = useThemeClasses();
 
   const memberSince = user?.metadata.creationTime
     ? new Date(user.metadata.creationTime).toLocaleDateString()
