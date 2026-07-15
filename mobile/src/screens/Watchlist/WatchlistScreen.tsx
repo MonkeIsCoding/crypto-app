@@ -1,22 +1,20 @@
 import React, { useCallback } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useFocusEffect } from "@react-navigation/native";
 import { CoinListItem } from "../../components/CoinListItem";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
+import { ScreenHeader } from "../../components/ScreenHeader";
 import { useWatchlistViewModel } from "../../viewmodels/useWatchlistViewModel";
-import { useTheme } from "../../context/ThemeContext";
+import { useThemeClasses } from "../../theme/classes";
 import { WatchlistStackParamList } from "../../navigation/WatchlistStack";
 
 type Props = NativeStackScreenProps<WatchlistStackParamList, "WatchlistList">;
 
 export function WatchlistScreen({ navigation }: Props) {
   const { items, loading, refreshing, error, offline, refresh } = useWatchlistViewModel();
-  const { isDarkMode } = useTheme();
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
-  const banner = isDarkMode ? "bg-amber-900 text-amber-200" : "bg-amber-100 text-amber-800";
+  const { bg } = useThemeClasses();
 
   useFocusEffect(
     useCallback(() => {
@@ -26,12 +24,7 @@ export function WatchlistScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView className={`flex-1 ${bg}`} edges={["top"]}>
-      <Text className={`font-sans-extrabold text-[28px] ${inkText} px-4 mt-2 mb-2`}>Watchlist</Text>
-      {offline && (
-        <Text className={`${banner} text-center p-1.5 text-xs font-sans-medium`}>
-          Offline — showing last synced watchlist
-        </Text>
-      )}
+      <ScreenHeader title="Watchlist" offline={offline} offlineMessage="Offline — showing last synced watchlist" />
       <LoadingErrorEmptyWrapper
         loading={loading && items.length === 0}
         error={error}

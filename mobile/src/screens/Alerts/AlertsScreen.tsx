@@ -4,18 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import { LoadingErrorEmptyWrapper } from "../../components/LoadingErrorEmptyWrapper";
+import { ScreenHeader } from "../../components/ScreenHeader";
 import { useAlertsViewModel } from "../../viewmodels/useAlertsViewModel";
-import { useTheme } from "../../context/ThemeContext";
+import { useThemeClasses } from "../../theme/classes";
 
 export function AlertsScreen() {
   const { alerts, loading, refreshing, error, offline, refresh, removeAlert } = useAlertsViewModel();
-  const { isDarkMode } = useTheme();
-  const bg = isDarkMode ? "bg-dark-bg" : "bg-white";
-  const hairline = isDarkMode ? "border-dark-hairline" : "border-hairline";
-  const inkText = isDarkMode ? "text-dark-ink" : "text-ink";
-  const mutedText = isDarkMode ? "text-dark-muted" : "text-muted";
-  const greenLightBg = isDarkMode ? "bg-dark-green-light" : "bg-brand-green-light";
-  const banner = isDarkMode ? "bg-amber-900 text-amber-200" : "bg-amber-100 text-amber-800";
+  const { bg, hairline, inkText, mutedText, greenLightBg } = useThemeClasses();
 
   useFocusEffect(
     useCallback(() => {
@@ -25,12 +20,7 @@ export function AlertsScreen() {
 
   return (
     <SafeAreaView className={`flex-1 ${bg}`} edges={["top"]}>
-      <Text className={`font-sans-extrabold text-[28px] ${inkText} px-4 mt-2 mb-2`}>Alerts</Text>
-      {offline && (
-        <Text className={`${banner} text-center p-1.5 text-xs font-sans-medium`}>
-          Offline — showing last synced alerts
-        </Text>
-      )}
+      <ScreenHeader title="Alerts" offline={offline} offlineMessage="Offline — showing last synced alerts" />
       <LoadingErrorEmptyWrapper
         loading={loading && alerts.length === 0}
         error={error}
