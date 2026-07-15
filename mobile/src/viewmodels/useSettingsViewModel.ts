@@ -6,10 +6,13 @@ import {
   getAlertNotificationsEnabled,
   setAlertNotificationsEnabled,
 } from "../services/preferences/notificationPreference";
+import { replaceCachedCoins } from "../services/sqlite/coinsCache";
+import { replaceCachedWatchlist } from "../services/sqlite/watchlistCache";
 
 export function useSettingsViewModel() {
   const { user } = useAuth();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [clearingCache, setClearingCache] = useState(false);
 
   useEffect(() => {
     getAlertNotificationsEnabled().then(setNotificationsEnabled);
@@ -28,10 +31,26 @@ export function useSettingsViewModel() {
     await setAlertNotificationsEnabled(enabled);
   }
 
+  async function handleClearCache() {
+    if (!user) return;
+    setClearingCache(true);
+    try {
+      await replaceCachedCoins([]);
+      await replaceCachedWatchlist(user.uid, []);
+      RNAlert.alert("Cache cleared", "Offline data has been cleared.");
+    } catch (err) {
+      RNAlert.alert("Error", "Couldn't clear the offline cache.");
+    } finally {
+      setClearingCache(false);
+    }
+  }
+
   return {
     user,
     handleLogout,
     notificationsEnabled,
     toggleNotifications,
+    clearingCache,
+    handleClearCache,
   };
 }

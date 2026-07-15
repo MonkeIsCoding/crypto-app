@@ -3,7 +3,14 @@ import { Pressable, Switch, Text, View } from "react-native";
 import { useSettingsViewModel } from "../../viewmodels/useSettingsViewModel";
 
 export function SettingsScreen() {
-  const { user, handleLogout, notificationsEnabled, toggleNotifications } = useSettingsViewModel();
+  const {
+    user,
+    handleLogout,
+    notificationsEnabled,
+    toggleNotifications,
+    clearingCache,
+    handleClearCache,
+  } = useSettingsViewModel();
 
   const memberSince = user?.metadata.creationTime
     ? new Date(user.metadata.creationTime).toLocaleDateString()
@@ -26,6 +33,16 @@ export function SettingsScreen() {
         <Text className="font-sans-medium text-[15px] text-ink">Alert notifications</Text>
         <Switch value={notificationsEnabled} onValueChange={toggleNotifications} trackColor={{ true: "#1E7A46" }} />
       </View>
+
+      <Pressable
+        className="border border-hairline rounded-xl p-3.5 items-center bg-white mt-6"
+        onPress={handleClearCache}
+        disabled={clearingCache}
+      >
+        <Text className="text-ink font-sans-semibold text-[15px]">
+          {clearingCache ? "Clearing..." : "Clear offline cache"}
+        </Text>
+      </Pressable>
 
       <Pressable className="border border-brand-red rounded-xl p-3.5 items-center bg-white mt-3" onPress={handleLogout}>
         <Text className="text-brand-red font-sans-semibold text-[15px]">Log out</Text>
