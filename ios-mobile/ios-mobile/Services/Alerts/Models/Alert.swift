@@ -14,7 +14,7 @@ nonisolated struct Alert: Codable, Identifiable, Equatable {
     let triggered: Bool
     let createdAt: String
 
-    let coin: Coin?
+    var coin: Coin?
 
     enum CodingKeys: String, CodingKey {
         case id
