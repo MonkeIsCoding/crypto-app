@@ -28,6 +28,18 @@ struct HairlineOutlinedButtonStyle: ButtonStyle {
     }
 }
 
+struct HairlineFieldModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .background(
+                RoundedRectangle(cornerRadius: Theme.cornerRadius)
+                    .strokeBorder(Theme.hairline, lineWidth: 1)
+            )
+    }
+}
+
 #Preview {
     Button("Remove from Watchlist") {}
         .buttonStyle(.hairlineOutlined(color: .negative))
